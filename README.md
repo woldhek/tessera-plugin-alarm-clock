@@ -49,7 +49,9 @@ details, **Settings**. The same values are entities of the screen in Home Assist
 
 - **The screen's own speaker.** On a screen with a speaker, from its board (the Guition P4 panels, for example) or
   from another plugin, the part **Ring on the screen's speaker** is on by default: four short beeps a second, at the
-  screen's volume, until the alarm stops. A screen without a speaker shows the popup without a sound. To change the
+  screen's volume, until the alarm stops. A screen without a speaker shows the popup without a sound. On the Guition 4-inch, the plugin
+  [Guition speaker](https://github.com/woldhek/tessera-plugin-guition-speaker) makes its speaker output the screen's
+  speaker. To change the
   sound, replace `components/alarm_clock/sounds/alarm.wav` in a copy of this plugin with a WAV file of 16-bit samples.
 - **A media player of Home Assistant.** Choose it when you add the plugin (**Media player**), and fill in **Media to
   play**: an address such as `https://example.org/wake.mp3`, or a media-source id of Home Assistant such as

@@ -50,7 +50,9 @@ details van de plugin, **Settings**. Dezelfde waarden zijn entiteiten van het sc
 - **De eigen speaker van het scherm.** Op een scherm met een speaker, van het bord zelf (de Guition P4-panelen
   bijvoorbeeld) of van een andere plugin, staat het onderdeel **Afgaan op de speaker van het scherm** standaard aan:
   vier korte piepjes per seconde, op het volume van het scherm, tot de wekker stopt. Een scherm zonder speaker toont
-  de popup zonder geluid. Een ander geluid: vervang `components/alarm_clock/sounds/alarm.wav` in een kopie van deze
+  de popup zonder geluid. Op de Guition 4-inch maakt de plugin
+  [Guition-speaker](https://github.com/woldhek/tessera-plugin-guition-speaker) van zijn speakeruitgang de speaker van
+  het scherm. Een ander geluid: vervang `components/alarm_clock/sounds/alarm.wav` in een kopie van deze
   plugin door een WAV-bestand met 16-bit samples.
 - **Een mediaspeler van Home Assistant.** Kies hem als je de plugin toevoegt (**Mediaspeler**) en vul **Af te spelen
   media** in: een adres zoals `https://example.org/wake.mp3`, of een media-source-id van Home Assistant zoals
