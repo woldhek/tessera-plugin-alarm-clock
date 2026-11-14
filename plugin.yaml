@@ -1,0 +1,165 @@
+# What a screen gets when it takes this plugin: the component, and the entities that hold the alarms and the settings.
+# They are kept on the screen (a restart keeps them) and shown in Home Assistant, so an automation can read and set an
+# alarm: time.<screen>_alarm_1_time, switch.<screen>_alarm_1, text.<screen>_alarm_1_days, and the same for alarm 2.
+# MEDIA_PLAYER is the input chosen when the plugin was added, empty for none.
+defaults:
+  MEDIA_PLAYER: ""
+
+datetime:
+  - platform: template
+    id: alarm_clock_time_1
+    type: time
+    name: "Alarm 1 time"
+    icon: mdi:alarm
+    optimistic: true
+    restore_value: true
+    initial_value: "07:00:00"
+  - platform: template
+    id: alarm_clock_time_2
+    type: time
+    name: "Alarm 2 time"
+    icon: mdi:alarm
+    optimistic: true
+    restore_value: true
+    initial_value: "08:00:00"
+
+switch:
+  - platform: template
+    id: alarm_clock_on_1
+    name: "Alarm 1"
+    icon: mdi:alarm
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: template
+    id: alarm_clock_on_2
+    name: "Alarm 2"
+    icon: mdi:alarm
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: template
+    id: alarm_clock_snooze
+    name: "Alarm snooze"
+    icon: mdi:alarm-snooze
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_ON
+    entity_category: config
+
+# The days an alarm rings on: any of mon, tue, wed, thu, fri, sat and sun, with commas between. Empty: it rings once, at
+# its next time, and turns itself off. Also understood: daily, weekdays, weekend.
+text:
+  - platform: template
+    id: alarm_clock_days_1
+    name: "Alarm 1 days"
+    icon: mdi:calendar-week
+    mode: text
+    optimistic: true
+    restore_value: true
+    max_length: 27
+    initial_value: "mon,tue,wed,thu,fri"
+  - platform: template
+    id: alarm_clock_days_2
+    name: "Alarm 2 days"
+    icon: mdi:calendar-week
+    mode: text
+    optimistic: true
+    restore_value: true
+    max_length: 27
+    initial_value: "sat,sun"
+  # What the media player plays: an address or a media-source id of Home Assistant. Empty: nothing.
+  - platform: template
+    id: alarm_clock_media
+    name: "Alarm media"
+    icon: mdi:music-note
+    mode: text
+    optimistic: true
+    restore_value: true
+    max_length: 160
+    initial_value: ""
+    entity_category: config
+
+number:
+  - platform: template
+    id: alarm_clock_snooze_minutes
+    name: "Alarm snooze minutes"
+    icon: mdi:alarm-snooze
+    optimistic: true
+    min_value: 1
+    max_value: 30
+    step: 1
+    initial_value: 5
+    restore_value: true
+    unit_of_measurement: min
+    entity_category: config
+  - platform: template
+    id: alarm_clock_ring_minutes
+    name: "Alarm ring minutes"
+    icon: mdi:timer-outline
+    optimistic: true
+    min_value: 1
+    max_value: 60
+    step: 1
+    initial_value: 10
+    restore_value: true
+    unit_of_measurement: min
+    entity_category: config
+  # The media player's volume while the alarm plays there; 0 leaves it as it is.
+  - platform: template
+    id: alarm_clock_media_volume
+    name: "Alarm media volume"
+    icon: mdi:volume-high
+    optimistic: true
+    min_value: 0
+    max_value: 100
+    step: 5
+    initial_value: 0
+    restore_value: true
+    unit_of_measurement: "%"
+    entity_category: config
+
+# For automations: on while an alarm rings (off while it is snoozed), and when the next one goes off.
+binary_sensor:
+  - platform: template
+    id: alarm_clock_ringing
+    name: "Alarm ringing"
+    icon: mdi:alarm-bell
+
+# The moment as a text of date and time (ISO 8601, UTC), which Home Assistant reads as a timestamp; empty for none.
+text_sensor:
+  - platform: template
+    id: alarm_clock_next
+    name: "Next alarm"
+    icon: mdi:alarm
+    device_class: timestamp
+
+# Keys for Home Assistant: stop or snooze the alarm that rings, or make the screen ring now (a test, or an automation's
+# own reason to wake someone).
+button:
+  - platform: template
+    name: "Stop alarm"
+    icon: mdi:alarm-off
+    on_press:
+      - lambda: id(alarm_clock_plugin).stop();
+  - platform: template
+    name: "Snooze alarm"
+    icon: mdi:alarm-snooze
+    on_press:
+      - lambda: id(alarm_clock_plugin).snooze();
+  - platform: template
+    name: "Ring alarm"
+    icon: mdi:alarm-bell
+    on_press:
+      - lambda: id(alarm_clock_plugin).ring_now();
+
+alarm_clock:
+  id: alarm_clock_plugin
+  media_player: ${MEDIA_PLAYER}
+  ringing: alarm_clock_ringing
+  next: alarm_clock_next
+  snooze: alarm_clock_snooze
+  snooze_minutes: alarm_clock_snooze_minutes
+  ring_minutes: alarm_clock_ring_minutes
+  media: alarm_clock_media
+  media_volume: alarm_clock_media_volume
+  alarms:
+    - { time: alarm_clock_time_1, enabled: alarm_clock_on_1, days: alarm_clock_days_1 }
+    - { time: alarm_clock_time_2, enabled: alarm_clock_on_2, days: alarm_clock_days_2 }

@@ -1,0 +1,4 @@
+# What tools/preview.py shows (docs/PREVIEW.md). The tile draws from the alarms kept on the screen, so it needs no data.
+tiles:
+  - tile: alarm
+    name: Alarm clock
