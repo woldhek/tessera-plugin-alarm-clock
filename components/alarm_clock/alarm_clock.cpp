@@ -19,9 +19,10 @@ static const char *const DAY_NAMES[7] = {"mon", "tue", "wed", "thu", "fri", "sat
 static const char *const DAY_KEYS[7] = {"day_mon", "day_tue", "day_wed", "day_thu", "day_fri", "day_sat", "day_sun"};
 // Icons of Tessera's set: the alarm clock, and the bell that rings.
 static constexpr uint32_t ICON_ALARM = 0xF0020, ICON_RING = 0xF009E;
-// What the media player plays when "Media to play" is empty: the screen's own beeps, ten minutes long (media/alarm.mp3
-// of this repository, served by jsDelivr with the type audio/mpeg that every speaker plays).
-static const char *const DEFAULT_MEDIA = "https://cdn.jsdelivr.net/gh/woldhek/tessera-plugin-alarm-clock@main/media/alarm.mp3";
+// What the media player plays when "Media to play" is empty: the screen's own beeps, ten minutes long, from Home
+// Assistant's own media folder (media/tessera-alarm-clock.mp3 of this repository, uploaded once under My media). Home
+// Assistant hands the speaker an address in the home's own network: nothing comes from the internet.
+static const char *const DEFAULT_MEDIA = "media-source://media_source/local/tessera-alarm-clock.mp3";
 static constexpr uint32_t DEFAULT_MEDIA_MS = 595000;   // started again just before its ten minutes end
 // An alarm that nobody stops is snoozed again and again for at most this long after it first went off.
 static constexpr uint32_t GIVE_UP_S = 3600;

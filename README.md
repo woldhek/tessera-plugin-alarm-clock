@@ -53,17 +53,21 @@ details, **Settings**. The same values are entities of the screen in Home Assist
   [Guition speaker](https://github.com/woldhek/tessera-plugin-guition-speaker) makes its speaker output the screen's
   speaker. To change the
   sound, replace `components/alarm_clock/sounds/alarm.wav` in a copy of this plugin with a WAV file of 16-bit samples.
-- **A media player of Home Assistant.** Choose it when you add the plugin (**Media player**). That is all: when an alarm
-  goes off the speaker plays the alarm's own beeps, the file `media/alarm.mp3` of this repository (ten minutes, started
-  again when an alarm rings longer). It comes from the internet (jsDelivr), so the speaker needs to reach it. To play
-  something else, fill in **Media to play**: an address such as `https://example.org/wake.mp3`, a radio stream, or a
-  media-source id of Home Assistant such as `media-source://media_source/local/wake.mp3`. The screen calls
-  `media_player.play_media` on that speaker, after `media_player.volume_set` when **Media volume** is above 0, and
-  `media_player.media_stop` on Stop and Snooze. Your own file plays once, so take one that lasts. This needs Home
-  Assistant to be reachable when the alarm goes off.
+- **A media player of Home Assistant.** Choose it when you add the plugin (**Media player**), and put the alarm's
+  sound in Home Assistant once:
+  1. Download [`media/tessera-alarm-clock.mp3`](media/tessera-alarm-clock.mp3) from this repository (ten minutes of
+     the alarm's own beeps).
+  2. In Home Assistant, open **Media**, **My media**, and upload it there, keeping its name.
+
+  When an alarm goes off the speaker plays it from Home Assistant, in your own network: nothing comes from the
+  internet. It starts again when an alarm rings longer than ten minutes. To play something else, fill in **Media to
+  play**: another file under My media (`media-source://media_source/local/wake.mp3`), an address, or a radio stream.
+  The screen calls `media_player.play_media` on that speaker, after `media_player.volume_set` when **Media volume** is
+  above 0, and `media_player.media_stop` on Stop and Snooze. Your own file plays once, so take one that lasts. This
+  needs Home Assistant to be reachable when the alarm goes off.
 - **Nothing on the media player?** Press **Ring alarm** in Home Assistant and read the screen's log (ESPHome, Logs):
   `Asked media_player... to play ...` means the screen sent it, and the problem is between Home Assistant and the
-  speaker (Home Assistant's own log says why). `Not sent` means the screen could not reach Home Assistant. The screen
+  speaker (Home Assistant's own log says why; a file missing from My media is the most likely). `Not sent` means the screen could not reach Home Assistant. The screen
   must also be allowed to perform Home Assistant actions (Settings, Devices & services, ESPHome, the screen,
   Configure), as every control of Tessera needs.
 

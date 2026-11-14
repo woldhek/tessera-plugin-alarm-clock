@@ -54,15 +54,18 @@ details van de plugin, **Settings**. Dezelfde waarden zijn entiteiten van het sc
   [Guition-speaker](https://github.com/woldhek/tessera-plugin-guition-speaker) van zijn speakeruitgang de speaker van
   het scherm. Een ander geluid: vervang `components/alarm_clock/sounds/alarm.wav` in een kopie van deze
   plugin door een WAV-bestand met 16-bit samples.
-- **Een mediaspeler van Home Assistant.** Kies hem als je de plugin toevoegt (**Mediaspeler**). Meer hoeft niet: gaat
-  een wekker af, dan speelt de speaker de eigen piepjes van de wekker, het bestand `media/alarm.mp3` van deze
-  repository (tien minuten, opnieuw gestart als een wekker langer afgaat). Het komt van internet (jsDelivr), dus de
-  speaker moet het kunnen bereiken. Iets anders afspelen: vul **Af te spelen media** in, met een adres zoals
-  `https://example.org/wake.mp3`, een radiostream, of een media-source-id van Home Assistant zoals
-  `media-source://media_source/local/wake.mp3`. Het scherm roept `media_player.play_media` aan op die speaker, na
-  `media_player.volume_set` als **Mediavolume** boven 0 staat, en `media_player.media_stop` bij Stop en Sluimeren. Een
-  eigen bestand speelt één keer: neem er een dat lang genoeg duurt. Hiervoor moet Home Assistant bereikbaar zijn op
-  het moment dat de wekker afgaat.
+- **Een mediaspeler van Home Assistant.** Kies hem als je de plugin toevoegt (**Mediaspeler**), en zet het geluid van
+  de wekker één keer in Home Assistant:
+  1. Download [`media/tessera-alarm-clock.mp3`](media/tessera-alarm-clock.mp3) uit deze repository (tien minuten van de
+     eigen piepjes van de wekker).
+  2. Open in Home Assistant **Media**, **Mijn media**, en upload het daar, met dezelfde naam.
+
+  Gaat een wekker af, dan speelt de speaker het af vanuit Home Assistant, in je eigen netwerk: er komt niets van
+  internet. Het begint opnieuw als een wekker langer dan tien minuten afgaat. Iets anders afspelen: vul **Af te spelen
+  media** in, met een ander bestand onder Mijn media (`media-source://media_source/local/wake.mp3`), een adres of een
+  radiostream. Het scherm roept `media_player.play_media` aan op die speaker, na `media_player.volume_set` als
+  **Mediavolume** boven 0 staat, en `media_player.media_stop` bij Stop en Sluimeren. Een eigen bestand speelt één keer:
+  neem er een dat lang genoeg duurt. Hiervoor moet Home Assistant bereikbaar zijn op het moment dat de wekker afgaat.
 - **Niets op de mediaspeler?** Druk in Home Assistant op **Ring alarm** en lees het log van het scherm (ESPHome, Logs):
   `Asked media_player... to play ...` betekent dat het scherm het verstuurd heeft en dat het probleem tussen Home
   Assistant en de speaker zit (het log van Home Assistant zegt waarom). `Not sent` betekent dat het scherm Home
