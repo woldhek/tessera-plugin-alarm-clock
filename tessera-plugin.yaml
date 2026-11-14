@@ -3,7 +3,7 @@
 # sound on a media player of Home Assistant. Every alarm is an entity of the screen too, so Home Assistant can read and
 # set it. Every name, label and hint below is a key into translations/<language>.json, part "app".
 id: alarm_clock
-version: 0.1.1
+version: 0.1.2
 # 0.18: the popup. Nothing newer is used, so it builds on Tessera's release and on its dev branch.
 api: "0.18"
 icon: alarm

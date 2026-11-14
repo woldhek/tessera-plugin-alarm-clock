@@ -48,7 +48,7 @@
     "setting_sound": "Alarm sound",
     "setting_sound_hint": "Ring on the screen's own speaker.",
     "setting_media": "Media to play",
-    "setting_media_hint": "What the media player plays: an address (https://...) or a media-source id of Home Assistant. Empty: the alarm's own beeps.",
+    "setting_media_hint": "What the media player plays: an address (https://...) or a media-source id of Home Assistant. Empty: tessera-alarm-clock.mp3 under My media (see the README).",
     "setting_media_volume": "Media volume",
     "setting_media_volume_hint": "The media player's volume for the alarm. 0 leaves it as it is.",
     "setting_test": "Test the alarm",

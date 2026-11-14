@@ -65,7 +65,8 @@ text:
     restore_value: true
     max_length: 27
     initial_value: "sat,sun"
-  # What the media player plays: an address or a media-source id of Home Assistant. Empty: the alarm's own beeps.
+  # What the media player plays: an address or a media-source id of Home Assistant. Empty: tessera-alarm-clock.mp3
+  # under My media of Home Assistant (media/ of this repository).
   - platform: template
     id: alarm_clock_media
     name: "Alarm media"

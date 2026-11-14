@@ -48,7 +48,7 @@
     "setting_sound": "Wekkergeluid",
     "setting_sound_hint": "Afgaan op de eigen speaker van het scherm.",
     "setting_media": "Af te spelen media",
-    "setting_media_hint": "Wat de mediaspeler speelt: een adres (https://...) of een media-source-id van Home Assistant. Leeg: de eigen piepjes van de wekker.",
+    "setting_media_hint": "Wat de mediaspeler speelt: een adres (https://...) of een media-source-id van Home Assistant. Leeg: tessera-alarm-clock.mp3 onder Mijn media (zie de README).",
     "setting_media_volume": "Mediavolume",
     "setting_media_volume_hint": "Het volume van de mediaspeler voor de wekker. 0 laat het zoals het is.",
     "setting_test": "Wekker testen",

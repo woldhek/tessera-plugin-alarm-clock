@@ -68,7 +68,8 @@ details van de plugin, **Settings**. Dezelfde waarden zijn entiteiten van het sc
   neem er een dat lang genoeg duurt. Hiervoor moet Home Assistant bereikbaar zijn op het moment dat de wekker afgaat.
 - **Niets op de mediaspeler?** Druk in Home Assistant op **Ring alarm** en lees het log van het scherm (ESPHome, Logs):
   `Asked media_player... to play ...` betekent dat het scherm het verstuurd heeft en dat het probleem tussen Home
-  Assistant en de speaker zit (het log van Home Assistant zegt waarom). `Not sent` betekent dat het scherm Home
+  Assistant en de speaker zit (het log van Home Assistant zegt waarom; een bestand dat niet onder Mijn
+  media staat is het waarschijnlijkst). `Not sent` betekent dat het scherm Home
   Assistant niet kon bereiken. Het scherm moet ook Home Assistant-acties mogen uitvoeren (Instellingen, Apparaten en
   diensten, ESPHome, het scherm, Configureren), zoals elke bediening van Tessera nodig heeft.
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.2 - 2026-11-14
+- Het wekkergeluid voor de mediaspeler komt uit de eigen mediamap van Home Assistant, niet van internet: upload
+  `media/tessera-alarm-clock.mp3` één keer onder Mijn media.
+
 ## 0.1.1 - 2026-11-14
 - Een gekozen mediaspeler speelt nu de eigen piepjes van de wekker als **Af te spelen media** leeg is; eerst speelde
   hij dan niets. Het log van het scherm zegt wat het verstuurde.
