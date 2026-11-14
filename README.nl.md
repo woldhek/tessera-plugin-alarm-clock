@@ -1,11 +1,13 @@
 # Wekker
 
-> Nieuw en nog niet op een echt scherm geprobeerd. Het scherm gaat aan en de wekker gaat af, ook 's nachts.
+> Nieuw en nog niet op een echt scherm geprobeerd. Vraagt Tessera's dev-branch (plugin-API 0.25) tot de volgende
+> release.
 
-Twee wekkers op een Tessera-scherm, die je op het scherm zelf instelt: geen telefoon en geen Home Assistant nodig om
-een wektijd te veranderen. Elke wekker heeft een tijd, de dagen waarop hij afgaat en een aan/uit-schakelaar. Gaat er
-een af, dan gaat het scherm aan met een popup met **Sluimeren** en **Stop**, en een scherm met een speaker laat geluid
-horen.
+Een nachtklok en twee wekkers voor een Tessera-scherm, die je op het scherm zelf instelt: geen telefoon en geen Home
+Assistant nodig om een wektijd te veranderen. De tegel is een klok in een ring die in de twaalf uur voor de wekker
+volloopt naar een zon bovenaan, en zegt hoe lang je nog mag slapen. In het laatste uur kleurt hij van het paars van de
+nacht naar het amber van de ochtend. Gaat een wekker af, dan komt er een zon op in een popup met **Sluimeren** en
+**Stop**, en een scherm met een speaker laat geluid horen.
 
 Elke wekker is ook een entiteit van het scherm in Home Assistant: een automatisering kan een wekker instellen en iets
 doen als hij afgaat, met elke speaker en elk geluid dat je wilt.
@@ -17,28 +19,32 @@ doen als hij afgaat, met elke speaker en elk geluid dat je wilt.
 1. Open in Tessera Plugins, kies **Add with a link** en plak
    `https://github.com/woldhek/tessera-plugin-alarm-clock`.
 2. Vink het scherm aan en pas toe. Het scherm bouwt één keer.
-3. Zet in Layout de tegel **Wekker** uit de groep Plugins op een pagina, in elke maat van 1x1 tot 2x2.
+3. Zet in Layout de tegel **Nachtklok** uit de groep Plugins op een pagina, in elke maat van 1x1 tot 2x2, of als hele
+   pagina.
 4. Tik op het scherm op de tegel. Kies **Wekker 1** of **Wekker 2**, stel de tijd in met de pijltjes, tik de dagen
    aan en zet de schakelaar aan.
 
 ## Op het scherm
 
-- **De tegel.** Op 1x1: de volgende wekker, met zijn dag ("Vandaag", "Morgen", een datum). Groter: beide wekkers, elk
-  met zijn tijd en zijn dagen ("Werkdagen", "ma–do", "Weekend", "Eenmalig"), naast elkaar op een brede tegel en onder
-  elkaar op een hoge. Een wekker die uit staat is grijs. Een tik opent de kaart.
-- **De kaart.** Bovenaan de twee wekkers, elk met zijn tijd. Daaronder de tijd van de gekozen wekker in grote cijfers,
-  met een pijltje omhoog boven en omlaag onder de uren en de minuten (de minuten gaan per vijf). Dan zijn dagen als
-  ronde toetsen, maandag eerst, en onderaan een schakelaar met wanneer hij afgaat: "Gaat af over 9 u 30 min", of een
-  dag en een tijd als dat meer dan een dag weg is. Elke tik wordt meteen bewaard: er is niets om op te slaan.
+- **De nachtklok (tegel).** De tijd van nu in een ring. De ring staat voor de twaalf uur voor de volgende wekker: hij
+  loopt vol naar de zon bovenaan, met een wit stipje waar het nu is, en onder de klok "nog 8 u 20 slapen" en de tijd
+  van de wekker. In het laatste uur kleuren de ring en het icoon amber. Een wekker die meer dan twaalf uur weg is: de
+  ring is leeg en de tekst zegt wanneer hij afgaat. Van 1x1 (de ring naast de tekst, waar nodig korter) tot 2x2, of een
+  hele pagina naast het bed. Een tik opent de kaart.
+- **De kaart.** Bovenaan de twee wekkers als pillen, elk met zijn tijd; de gekozen wekker licht op. Daaronder de tijd
+  van de gekozen wekker in een ring van de dag: middernacht bovenaan, de zon op de wektijd, de acht uur ervoor in
+  paars. Pijltjes boven en onder de uren en minuten stellen de tijd in (de minuten gaan per vijf). Dan de dagen als
+  ronde toetsen, maandag eerst, amber als ze gekozen zijn, en een schakelaar die zegt wanneer hij afgaat: "Gaat af over
+  9 u 30 min", of een dag en een tijd. Elke tik wordt meteen bewaard: er is niets om op te slaan.
 - **Geen dagen gekozen**: de wekker gaat één keer af, op zijn eerstvolgende tijd, en zet zichzelf uit.
-- **Als een wekker afgaat** gaat het scherm aan, ook vanuit stand-by en 's nachts, met de popup met de naam van de
-  wekker en de tijd. **Stop** beëindigt hem. **Sluimer 5 min** laat hem later opnieuw afgaan; de sluittoets van de
-  popup en een tik naast de popup sluimeren ook. Terwijl hij sluimert zegt de tegel dat, en stopt de rij van de
-  schakelaar op de kaart hem.
+- **Als een wekker afgaat** gaat het scherm aan, ook vanuit stand-by en 's nachts: een zon komt op boven de rand van
+  de popup en ademt, met "Goedemorgen" (of middag, avond) en de tijd. **Stop** beëindigt hem. De sluimertoets (een maan
+  en de minuten) laat hem later opnieuw afgaan; de sluittoets van de popup en een tik naast de popup sluimeren ook.
+  Terwijl hij sluimert zegt de nachtklok tot wanneer, en stopt de rij van de schakelaar op de kaart hem.
 - **Niemand in de buurt**: een wekker stopt vanzelf na tien minuten (een instelling), en een wekker die steeds weer
   sluimert geeft het op een uur nadat hij voor het eerst afging.
 
-![De tegels, de kaart en de popup op de Guition 4-inch](renders/guition-4inch.png)
+![De nachtklok, de kaart en de popup op de Guition 4-inch](renders/guition-4inch.png)
 
 ## Instellingen
 
@@ -128,5 +134,5 @@ actions:
 - Een wekker gaat af in de minuut van zijn tijd. Een scherm dat precies in die minuut herstart, mist hem.
 - Elk scherm heeft zijn eigen twee wekkers.
 - Een plugin kan de kaart niet op slot zetten: iedereen bij het scherm kan een wekker veranderen.
-- Gecontroleerd met `check.py` van de plugins-repository en een compile tegen de headers van Tessera's release en dev,
+- Gecontroleerd met `check.py` van de plugins-repository en een compile tegen de headers van Tessera's dev,
   en getekend op een kleine testopstelling, niet op Tessera's preview-bench. Nog niet op een echt scherm gedraaid.

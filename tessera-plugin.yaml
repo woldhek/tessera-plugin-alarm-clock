@@ -3,9 +3,9 @@
 # an entity of the screen too, so Home Assistant can read and set it, and act when it rings (any speaker, any sound).
 # Every name, label and hint below is a key into translations/<language>.json, part "app".
 id: alarm_clock
-version: 0.2.0
-# 0.18: the popup. Nothing newer is used, so it builds on Tessera's release and on its dev branch.
-api: "0.18"
+version: 0.3.0
+# 0.25: the night clock can take a whole page (sizes: full). Tessera's dev branch until its next release.
+api: "0.25"
 icon: alarm
 maintainer: woldhek
 license: MIT
@@ -18,13 +18,13 @@ boards: any
 flash_kb: 28
 
 tiles:
-  # 1x1: the next alarm, its time and its day. Larger: both alarms, each with its time and its days. A tap opens the
-  # card that sets both.
+  # A night clock: the time now in a ring that fills in the twelve hours before the next alarm, with how long there is
+  # left to sleep. From 1x1 to 2x2, or the whole page beside a bed. A tap opens the card that sets both alarms.
   - id: alarm
     name: tile_name
     icon: alarm
-    sizes: { min: 1x1, max: 2x2 }
-    memory: 900
+    sizes: { min: 1x1, max: 2x2, full: true }
+    memory: 2200
     example: tile_example
 
 cards:

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.0 - 2026-11-14
+- De tegel is een nachtklok: de tijd in een ring die volloopt naar de zon van de wekker, hoe lang je nog mag slapen,
+  paars 's nachts en amber in het laatste uur. Hij kan een hele pagina vullen.
+- De kaart stelt de tijd in binnen een ring van de dag, met amber dagtoetsen; de popup is een opkomende zon met een
+  begroeting.
+- Vraagt Tessera's dev-branch (plugin-API 0.25) tot de volgende release.
+
 ## 0.2.0 - 2026-11-14
 - Een nieuw uiterlijk: de tijd met pijltjes omhoog en omlaag, ronde dagtoetsen, een schakelaar die zegt wanneer de
   wekker afgaat, en beide wekkers op een tegel van 2x1 of groter.

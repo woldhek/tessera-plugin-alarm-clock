@@ -74,6 +74,9 @@ class AlarmClock : public Component, public tessera::Plugin {
   // Words for the glass: an alarm's days ("Mon–Fri", "Weekend", "Once"), and when it rings ("Rings in 9 h 30 min").
   std::string days_words(uint8_t days) const;
   std::string until_words(uint32_t at, uint32_t now) const;
+  // "8 h 20 min left to sleep" (brief: "8 h 20 left"), and a greeting for the time of day ("Good morning").
+  std::string sleep_words(uint32_t seconds, bool brief = false) const;
+  std::string greeting(uint32_t now) const;
   // A screen that shows 12 hours writes 13:00 without a 13.
   bool twelve_hours() const;
 

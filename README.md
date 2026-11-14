@@ -1,10 +1,11 @@
 # Alarm clock
 
-> New, and not yet tried on a real screen. It lights the screen and rings when an alarm goes off, also at night.
+> New, and not yet tried on a real screen. Needs Tessera's dev branch (plugin API 0.25) until its next release.
 
-Two alarms on a Tessera screen, set on the screen itself: no phone and no Home Assistant needed to change a wake-up
-time. Each alarm has a time, the days it rings on, and an on/off switch. When one goes off, the screen lights up and
-shows a popup with **Snooze** and **Stop**, and a screen with a speaker rings.
+A night clock and two alarms for a Tessera screen, set on the screen itself: no phone and no Home Assistant needed to
+change a wake-up time. The tile is a clock in a ring that fills in the twelve hours before the alarm, towards a sun at
+its top, and says how long there is left to sleep. In the last hour it turns from the night's purple to the morning's
+amber. When an alarm goes off a sun rises in a popup with **Snooze** and **Stop**, and a screen with a speaker rings.
 
 Every alarm is also an entity of the screen in Home Assistant: an automation can set an alarm, and act when one rings,
 with any speaker and any sound you like.
@@ -16,27 +17,32 @@ with any speaker and any sound you like.
 1. In Tessera, open Plugins, choose **Add with a link** and paste
    `https://github.com/woldhek/tessera-plugin-alarm-clock`.
 2. Tick the screen and apply. The screen builds once.
-3. In Layout, place the **Alarm clock** tile from the library's Plugins group, at any size from 1x1 to 2x2.
+3. In Layout, place the **Night clock** tile from the library's Plugins group, at any size from 1x1 to 2x2, or as a
+   whole page.
 4. On the screen, tap the tile. Choose **Alarm 1** or **Alarm 2**, set the time with the arrows, tap the days, and turn
    the switch on.
 
 ## On the screen
 
-- **The tile.** At 1x1: the next alarm, with its day ("Today", "Tomorrow", a date). Larger: both alarms, each with its
-  time and its days ("Weekdays", "Mon–Thu", "Weekend", "Once"), side by side on a wide tile and one above the other on
-  a tall one. An alarm that is off is grey. A tap opens the card.
-- **The card.** At the top the two alarms, each with its time. Under it the chosen alarm's time in large digits, with
-  an arrow up above and an arrow down below the hours and the minutes (the minutes go in fives). Then its days as round
-  keys, Monday first, and at the bottom a switch with when it rings: "Rings in 9 h 30 min", or a day and a time when
-  that is more than a day away. Every tap is kept at once: there is nothing to save.
+- **The night clock (tile).** The time now in a ring. The ring stands for the twelve hours before the next alarm: it
+  fills in towards the sun at its top, a white dot where it is now, with "8 h 20 min left to sleep" and the alarm's
+  time under the clock. In the last hour the ring and its icon turn amber. An alarm more than twelve hours away: the
+  ring is empty and the words say when it rings. From 1x1 (the ring beside the words, shorter words where they must)
+  to 2x2, or a whole page beside a bed. A tap opens the card.
+- **The card.** At the top the two alarms as pills, each with its time; the chosen one is lit. Under it the chosen
+  alarm's time inside a ring of the day: midnight at the top, the sun on the alarm's time, the eight hours before it in
+  purple. Arrows above and below the hours and the minutes set the time (the minutes go in fives). Then its days as
+  round keys, Monday first, amber when chosen, and a switch that says when it rings: "Rings in 9 h 30 min", or a day
+  and a time. Every tap is kept at once: there is nothing to save.
 - **No days chosen**: the alarm rings once, at its next time, and turns itself off.
-- **When an alarm goes off** the screen lights up, also from standby and at night, and shows the popup with the alarm's
-  name and the time. **Stop** ends it. **Snooze 5 min** makes it ring again later; the popup's close key and a tap
-  beside the popup snooze too. While it is snoozed the tile says so, and the switch's row on the card stops it.
+- **When an alarm goes off** the screen lights up, also from standby and at night: a sun rises over the popup's edge
+  and breathes, with "Good morning" (or afternoon, evening) and the time. **Stop** ends it. The snooze key (a moon and
+  its minutes) makes it ring again later; the popup's close key and a tap beside the popup snooze too. While it is
+  snoozed the night clock says until when, and the switch's row on the card stops it.
 - **Nobody there**: an alarm stops by itself after ten minutes (a setting), and an alarm that is snoozed again and
   again gives up an hour after it first went off.
 
-![The tiles, the card and the popup on the Guition 4-inch](renders/guition-4inch.png)
+![The night clock, the card and the popup on the Guition 4-inch](renders/guition-4inch.png)
 
 ## Settings
 
@@ -127,5 +133,4 @@ actions:
 - An alarm rings in the minute of its time. A screen that is restarting in exactly that minute misses it.
 - Each screen has its own two alarms.
 - A plugin cannot lock the card: anyone at the screen can change an alarm.
-- Checked with the plugins repository's `check.py` and a compile against the headers of Tessera's release and its dev
-  branch, and drawn on a small test rig, not on Tessera's preview bench. Not yet run on a real screen.
+- Checked with the plugins repository's `check.py` and a compile against the headers of Tessera's dev branch, and drawn on a small test rig, not on Tessera's preview bench. Not yet run on a real screen.
