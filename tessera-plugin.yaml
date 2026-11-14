@@ -1,9 +1,9 @@
-# Alarm clock: two alarms on the glass, each with a time, its days and an on/off key, set on the screen itself. When one
-# goes off the screen shows a popup with Snooze and Stop, rings on its own speaker when it has one, and can start a
-# sound on a media player of Home Assistant. Every alarm is an entity of the screen too, so Home Assistant can read and
-# set it. Every name, label and hint below is a key into translations/<language>.json, part "app".
+# Alarm clock: two alarms on the glass, each with a time, its days and an on/off switch, set on the screen itself. When
+# one goes off the screen shows a popup with Snooze and Stop and rings on its own speaker when it has one. Every alarm is
+# an entity of the screen too, so Home Assistant can read and set it, and act when it rings (any speaker, any sound).
+# Every name, label and hint below is a key into translations/<language>.json, part "app".
 id: alarm_clock
-version: 0.1.3
+version: 0.2.0
 # 0.18: the popup. Nothing newer is used, so it builds on Tessera's release and on its dev branch.
 api: "0.18"
 icon: alarm
@@ -17,22 +17,14 @@ requires:
 boards: any
 flash_kb: 28
 
-permissions:
-  # Only when a media player was chosen for the screen: the alarm starts a sound there and stops it again.
-  home_assistant_actions: [media_player.play_media, media_player.media_stop, media_player.volume_set]
-
-# Optional: the media player of Home Assistant that plays a sound when an alarm goes off (a speaker in the same room).
-# Leave it empty for none. It is built into the screen: another choice builds the screen again.
-inputs:
-  - { id: media_player, kind: entity, domains: [media_player], scope: screen, label: input_player, hint: input_player_hint }
-
 tiles:
-  # The next alarm: its time and its day. A tap opens the card that sets both alarms.
+  # 1x1: the next alarm, its time and its day. Larger: both alarms, each with its time and its days. A tap opens the
+  # card that sets both.
   - id: alarm
     name: tile_name
     icon: alarm
     sizes: { min: 1x1, max: 2x2 }
-    memory: 500
+    memory: 900
     example: tile_example
 
 cards:
@@ -49,6 +41,4 @@ settings:
   - { key: alarm_ring_minutes, label: setting_ring_minutes, hint: setting_ring_minutes_hint }
   # Only on a screen with a speaker (the part sound): elsewhere the editor shows it unavailable.
   - { key: alarm_sound, label: setting_sound, hint: setting_sound_hint }
-  - { key: alarm_media, label: setting_media, hint: setting_media_hint }
-  - { key: alarm_media_volume, label: setting_media_volume, hint: setting_media_volume_hint }
   - { key: ring_alarm, label: setting_test, hint: setting_test_hint }

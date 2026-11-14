@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.0 - 2026-11-14
+- A new look: the time with arrows up and down, round day keys, a switch that says when the alarm rings, and both
+  alarms on a tile of 2x1 or larger.
+- Each alarm has its own sensor that is on while it rings, for automations; the popup names the alarm.
+- The media player is gone from the plugin: play any sound on any speaker from an automation on the ringing sensor
+  (see the README). Remove the input **Media player** and the file under My media if you set them up.
+
 ## 0.1.3 - 2026-11-14
 - The media player's alarm is one cycle of beeps (a few kB, not ten minutes), played again every three seconds
   while the alarm rings, on any media player. Upload the new `media/tessera-alarm-clock.mp3` under My media.

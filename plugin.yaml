@@ -1,9 +1,6 @@
 # What a screen gets when it takes this plugin: the component, and the entities that hold the alarms and the settings.
 # They are kept on the screen (a restart keeps them) and shown in Home Assistant, so an automation can read and set an
 # alarm: time.<screen>_alarm_1_time, switch.<screen>_alarm_1, text.<screen>_alarm_1_days, and the same for alarm 2.
-# MEDIA_PLAYER is the input chosen when the plugin was added, empty for none.
-defaults:
-  MEDIA_PLAYER: ""
 
 datetime:
   - platform: template
@@ -65,18 +62,6 @@ text:
     restore_value: true
     max_length: 27
     initial_value: "sat,sun"
-  # What the media player plays: an address or a media-source id of Home Assistant. Empty: tessera-alarm-clock.mp3
-  # under My media of Home Assistant (media/ of this repository).
-  - platform: template
-    id: alarm_clock_media
-    name: "Alarm media"
-    icon: mdi:music-note
-    mode: text
-    optimistic: true
-    restore_value: true
-    max_length: 160
-    initial_value: ""
-    entity_category: config
 
 number:
   - platform: template
@@ -103,25 +88,21 @@ number:
     restore_value: true
     unit_of_measurement: min
     entity_category: config
-  # The media player's volume while the alarm plays there; 0 leaves it as it is.
-  - platform: template
-    id: alarm_clock_media_volume
-    name: "Alarm media volume"
-    icon: mdi:volume-high
-    optimistic: true
-    min_value: 0
-    max_value: 100
-    step: 5
-    initial_value: 0
-    restore_value: true
-    unit_of_measurement: "%"
-    entity_category: config
 
-# For automations: on while an alarm rings (off while it is snoozed), and when the next one goes off.
+# For automations: on while an alarm rings (off while it is snoozed): any alarm (also a test), and each alarm on its
+# own. And when the next one goes off.
 binary_sensor:
   - platform: template
     id: alarm_clock_ringing
     name: "Alarm ringing"
+    icon: mdi:alarm-bell
+  - platform: template
+    id: alarm_clock_ringing_1
+    name: "Alarm 1 ringing"
+    icon: mdi:alarm-bell
+  - platform: template
+    id: alarm_clock_ringing_2
+    name: "Alarm 2 ringing"
     icon: mdi:alarm-bell
 
 # The moment as a text of date and time (ISO 8601, UTC), which Home Assistant reads as a timestamp; empty for none.
@@ -153,14 +134,11 @@ button:
 
 alarm_clock:
   id: alarm_clock_plugin
-  media_player: ${MEDIA_PLAYER}
   ringing: alarm_clock_ringing
   next: alarm_clock_next
   snooze: alarm_clock_snooze
   snooze_minutes: alarm_clock_snooze_minutes
   ring_minutes: alarm_clock_ring_minutes
-  media: alarm_clock_media
-  media_volume: alarm_clock_media_volume
   alarms:
-    - { time: alarm_clock_time_1, enabled: alarm_clock_on_1, days: alarm_clock_days_1 }
-    - { time: alarm_clock_time_2, enabled: alarm_clock_on_2, days: alarm_clock_days_2 }
+    - { time: alarm_clock_time_1, enabled: alarm_clock_on_1, days: alarm_clock_days_1, ringing: alarm_clock_ringing_1 }
+    - { time: alarm_clock_time_2, enabled: alarm_clock_on_2, days: alarm_clock_days_2, ringing: alarm_clock_ringing_2 }

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.0 - 2026-11-14
+- Een nieuw uiterlijk: de tijd met pijltjes omhoog en omlaag, ronde dagtoetsen, een schakelaar die zegt wanneer de
+  wekker afgaat, en beide wekkers op een tegel van 2x1 of groter.
+- Elke wekker heeft een eigen sensor die aan is terwijl hij afgaat, voor automatiseringen; de popup noemt de wekker.
+- De mediaspeler is uit de plugin: speel elk geluid op elke speaker vanuit een automatisering op de sensor (zie de
+  README). Haal het bestand onder Mijn media weg als je dat had neergezet.
+
 ## 0.1.3 - 2026-11-14
 - Het wekkergeluid voor de mediaspeler is één piepcyclus (een paar kB, geen tien minuten), elke drie seconden
   opnieuw gespeeld zolang de wekker afgaat, op elke mediaspeler. Upload de nieuwe `media/tessera-alarm-clock.mp3`
