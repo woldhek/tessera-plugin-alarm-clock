@@ -56,12 +56,14 @@ details van de plugin, **Settings**. Dezelfde waarden zijn entiteiten van het sc
   plugin door een WAV-bestand met 16-bit samples.
 - **Een mediaspeler van Home Assistant.** Kies hem als je de plugin toevoegt (**Mediaspeler**), en zet het geluid van
   de wekker één keer in Home Assistant:
-  1. Download [`media/tessera-alarm-clock.mp3`](media/tessera-alarm-clock.mp3) uit deze repository (tien minuten van de
-     eigen piepjes van de wekker).
+  1. Download [`media/tessera-alarm-clock.mp3`](media/tessera-alarm-clock.mp3) uit deze repository (één cyclus van de
+     eigen piepjes van de wekker, een paar kB).
   2. Open in Home Assistant **Media**, **Mijn media**, en upload het daar, met dezelfde naam.
 
   Gaat een wekker af, dan speelt de speaker het af vanuit Home Assistant, in je eigen netwerk: er komt niets van
-  internet. Het begint opnieuw als een wekker langer dan tien minuten afgaat. Iets anders afspelen: vul **Af te spelen
+  internet. Elke mediaspeler kan een bestand één keer afspelen, maar weinig kunnen er een herhalen: daarom vraagt het
+  scherm de speaker het elke drie seconden opnieuw te spelen zolang de wekker afgaat. Zo werkt het op elke speaker
+  waar Home Assistant op kan afspelen. Iets anders afspelen: vul **Af te spelen
   media** in, met een ander bestand onder Mijn media (`media-source://media_source/local/wake.mp3`), een adres of een
   radiostream. Het scherm roept `media_player.play_media` aan op die speaker, na `media_player.volume_set` als
   **Mediavolume** boven 0 staat, en `media_player.media_stop` bij Stop en Sluimeren. Een eigen bestand speelt één keer:

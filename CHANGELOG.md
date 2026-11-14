@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.3 - 2026-11-14
+- The media player's alarm is one cycle of beeps (a few kB, not ten minutes), played again every three seconds
+  while the alarm rings, on any media player. Upload the new `media/tessera-alarm-clock.mp3` under My media.
+
 ## 0.1.2 - 2026-11-14
 - The media player's alarm comes from Home Assistant's own media folder, not from the internet: upload
   `media/tessera-alarm-clock.mp3` under My media once.

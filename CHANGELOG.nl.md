@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.3 - 2026-11-14
+- Het wekkergeluid voor de mediaspeler is één piepcyclus (een paar kB, geen tien minuten), elke drie seconden
+  opnieuw gespeeld zolang de wekker afgaat, op elke mediaspeler. Upload de nieuwe `media/tessera-alarm-clock.mp3`
+  onder Mijn media.
+
 ## 0.1.2 - 2026-11-14
 - Het wekkergeluid voor de mediaspeler komt uit de eigen mediamap van Home Assistant, niet van internet: upload
   `media/tessera-alarm-clock.mp3` één keer onder Mijn media.

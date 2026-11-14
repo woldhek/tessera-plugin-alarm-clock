@@ -55,12 +55,13 @@ details, **Settings**. The same values are entities of the screen in Home Assist
   sound, replace `components/alarm_clock/sounds/alarm.wav` in a copy of this plugin with a WAV file of 16-bit samples.
 - **A media player of Home Assistant.** Choose it when you add the plugin (**Media player**), and put the alarm's
   sound in Home Assistant once:
-  1. Download [`media/tessera-alarm-clock.mp3`](media/tessera-alarm-clock.mp3) from this repository (ten minutes of
-     the alarm's own beeps).
+  1. Download [`media/tessera-alarm-clock.mp3`](media/tessera-alarm-clock.mp3) from this repository (one cycle of the
+     alarm's own beeps, a few kB).
   2. In Home Assistant, open **Media**, **My media**, and upload it there, keeping its name.
 
   When an alarm goes off the speaker plays it from Home Assistant, in your own network: nothing comes from the
-  internet. It starts again when an alarm rings longer than ten minutes. To play something else, fill in **Media to
+  internet. Every media player can play a file once, few can repeat one, so the screen asks the speaker to play it
+  again every three seconds while the alarm rings: it works the same on any speaker Home Assistant can play on. To play something else, fill in **Media to
   play**: another file under My media (`media-source://media_source/local/wake.mp3`), an address, or a radio stream.
   The screen calls `media_player.play_media` on that speaker, after `media_player.volume_set` when **Media volume** is
   above 0, and `media_player.media_stop` on Stop and Snooze. Your own file plays once, so take one that lasts. This

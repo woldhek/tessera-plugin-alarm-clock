@@ -84,6 +84,7 @@ class AlarmClock : public Component, public tessera::Plugin {
   void show_();
   void quiet_();
   void start_media_();
+  bool play_media_(const std::string &media);
   void stop_media_();
   int minutes_(number::Number *n, int fallback) const;
 

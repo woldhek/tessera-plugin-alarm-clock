@@ -19,11 +19,13 @@ static const char *const DAY_NAMES[7] = {"mon", "tue", "wed", "thu", "fri", "sat
 static const char *const DAY_KEYS[7] = {"day_mon", "day_tue", "day_wed", "day_thu", "day_fri", "day_sat", "day_sun"};
 // Icons of Tessera's set: the alarm clock, and the bell that rings.
 static constexpr uint32_t ICON_ALARM = 0xF0020, ICON_RING = 0xF009E;
-// What the media player plays when "Media to play" is empty: the screen's own beeps, ten minutes long, from Home
-// Assistant's own media folder (media/tessera-alarm-clock.mp3 of this repository, uploaded once under My media). Home
-// Assistant hands the speaker an address in the home's own network: nothing comes from the internet.
+// What the media player plays when "Media to play" is empty: one cycle of the screen's own beeps (half a second, a few
+// kB), from Home Assistant's own media folder (media/tessera-alarm-clock.mp3 of this repository, uploaded once under My
+// media). Home Assistant hands the speaker an address in the home's own network: nothing comes from the internet. Every
+// media player can play a file once, few can repeat one, so the screen asks again every few seconds while the alarm
+// rings: how long a speaker takes to start falls in the pause between the beeps.
 static const char *const DEFAULT_MEDIA = "media-source://media_source/local/tessera-alarm-clock.mp3";
-static constexpr uint32_t DEFAULT_MEDIA_MS = 595000;   // started again just before its ten minutes end
+static constexpr uint32_t DEFAULT_MEDIA_MS = 3000;
 // An alarm that nobody stops is snoozed again and again for at most this long after it first went off.
 static constexpr uint32_t GIVE_UP_S = 3600;
 
@@ -468,8 +470,8 @@ void AlarmClock::on_interval(uint32_t now_ms) {
     } else {
       // The popup is the way to stop it: it comes back when something took it away (an alert, a screen put out).
       if (!tessera::popup_shown(this)) show_();
-      // The built-in sound on the media player lasts ten minutes: again, for an alarm that rings longer.
-      if (media_started_ && media_default_ && now_ms - media_ms_ >= DEFAULT_MEDIA_MS) start_media_();
+      // The built-in cycle on the media player: again, every few seconds.
+      if (media_started_ && media_default_ && now_ms - media_ms_ >= DEFAULT_MEDIA_MS) play_media_(DEFAULT_MEDIA);
       // And the screen stays lit while it rings.
       if (now_ms - woke_ms_ >= 5000) {
         woke_ms_ = now_ms;
@@ -571,9 +573,6 @@ void AlarmClock::dismissed() {
 
 void AlarmClock::start_media_() {
   if (media_player_[0] == 0) return;
-  const std::string media = media_ == nullptr || media_->state.empty() ? std::string(DEFAULT_MEDIA) : media_->state;
-  media_default_ = media == DEFAULT_MEDIA;
-  media_ms_ = ms_;
   const int volume = media_volume_ == nullptr || std::isnan(media_volume_->state) ? 0 : static_cast<int>(media_volume_->state);
   if (volume > 0) {
     JsonDocument level;
@@ -581,12 +580,19 @@ void AlarmClock::start_media_() {
     if (!tessera::action("media_player.volume_set", media_player_, level.as<JsonVariantConst>()))
       ESP_LOGW(TAG, "Not sent: media_player.volume_set to %s", media_player_);
   }
+  const std::string media = media_ == nullptr || media_->state.empty() ? std::string(DEFAULT_MEDIA) : media_->state;
+  media_default_ = media == DEFAULT_MEDIA;
+  media_started_ = play_media_(media);
+  if (media_started_) ESP_LOGI(TAG, "Asked %s to play %s", media_player_, media.c_str());
+  else ESP_LOGW(TAG, "Not sent: media_player.play_media to %s (is Home Assistant connected?)", media_player_);
+}
+
+bool AlarmClock::play_media_(const std::string &media) {
+  media_ms_ = ms_;
   JsonDocument play;
   play["media_content_id"] = media;
   play["media_content_type"] = "music";
-  media_started_ = tessera::action("media_player.play_media", media_player_, play.as<JsonVariantConst>());
-  if (media_started_) ESP_LOGI(TAG, "Asked %s to play %s", media_player_, media.c_str());
-  else ESP_LOGW(TAG, "Not sent: media_player.play_media to %s (is Home Assistant connected?)", media_player_);
+  return tessera::action("media_player.play_media", media_player_, play.as<JsonVariantConst>());
 }
 
 void AlarmClock::stop_media_() {
