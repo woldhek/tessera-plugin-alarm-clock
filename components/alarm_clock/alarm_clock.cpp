@@ -6,7 +6,11 @@
 #include <cstdio>
 #include <string>
 
+#include "esphome/core/log.h"
+
 namespace esphome::alarm_clock {
+
+static const char *const TAG = "alarm_clock";
 
 using tessera::Font;
 namespace ui = tessera::ui;
@@ -15,6 +19,10 @@ static const char *const DAY_NAMES[7] = {"mon", "tue", "wed", "thu", "fri", "sat
 static const char *const DAY_KEYS[7] = {"day_mon", "day_tue", "day_wed", "day_thu", "day_fri", "day_sat", "day_sun"};
 // Icons of Tessera's set: the alarm clock, and the bell that rings.
 static constexpr uint32_t ICON_ALARM = 0xF0020, ICON_RING = 0xF009E;
+// What the media player plays when "Media to play" is empty: the screen's own beeps, ten minutes long (media/alarm.mp3
+// of this repository, served by jsDelivr with the type audio/mpeg that every speaker plays).
+static const char *const DEFAULT_MEDIA = "https://cdn.jsdelivr.net/gh/woldhek/tessera-plugin-alarm-clock@main/media/alarm.mp3";
+static constexpr uint32_t DEFAULT_MEDIA_MS = 595000;   // started again just before its ten minutes end
 // An alarm that nobody stops is snoozed again and again for at most this long after it first went off.
 static constexpr uint32_t GIVE_UP_S = 3600;
 
@@ -459,6 +467,8 @@ void AlarmClock::on_interval(uint32_t now_ms) {
     } else {
       // The popup is the way to stop it: it comes back when something took it away (an alert, a screen put out).
       if (!tessera::popup_shown(this)) show_();
+      // The built-in sound on the media player lasts ten minutes: again, for an alarm that rings longer.
+      if (media_started_ && media_default_ && now_ms - media_ms_ >= DEFAULT_MEDIA_MS) start_media_();
       // And the screen stays lit while it rings.
       if (now_ms - woke_ms_ >= 5000) {
         woke_ms_ = now_ms;
@@ -559,17 +569,23 @@ void AlarmClock::dismissed() {
 }
 
 void AlarmClock::start_media_() {
-  if (media_player_[0] == 0 || media_ == nullptr || media_->state.empty()) return;
+  if (media_player_[0] == 0) return;
+  const std::string media = media_ == nullptr || media_->state.empty() ? std::string(DEFAULT_MEDIA) : media_->state;
+  media_default_ = media == DEFAULT_MEDIA;
+  media_ms_ = ms_;
   const int volume = media_volume_ == nullptr || std::isnan(media_volume_->state) ? 0 : static_cast<int>(media_volume_->state);
   if (volume > 0) {
     JsonDocument level;
     level["volume_level"] = volume / 100.0;
-    tessera::action("media_player.volume_set", media_player_, level.as<JsonVariantConst>());
+    if (!tessera::action("media_player.volume_set", media_player_, level.as<JsonVariantConst>()))
+      ESP_LOGW(TAG, "Not sent: media_player.volume_set to %s", media_player_);
   }
   JsonDocument play;
-  play["media_content_id"] = media_->state;
+  play["media_content_id"] = media;
   play["media_content_type"] = "music";
   media_started_ = tessera::action("media_player.play_media", media_player_, play.as<JsonVariantConst>());
+  if (media_started_) ESP_LOGI(TAG, "Asked %s to play %s", media_player_, media.c_str());
+  else ESP_LOGW(TAG, "Not sent: media_player.play_media to %s (is Home Assistant connected?)", media_player_);
 }
 
 void AlarmClock::stop_media_() {

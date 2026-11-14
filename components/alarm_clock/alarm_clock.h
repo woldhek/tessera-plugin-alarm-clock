@@ -97,7 +97,8 @@ class AlarmClock : public Component, public tessera::Plugin {
   text::Text *media_{};
   const char *media_player_ = "";
 
-  bool ringing_ = false, media_started_ = false, published_ = false;
+  bool ringing_ = false, media_started_ = false, media_default_ = false, published_ = false;
+  uint32_t media_ms_ = 0;        // millis() when the media player was last asked to play
   int ring_alarm_ = -1;          // the alarm that rings or is snoozed, -1 for a test
   uint32_t ms_ = 0;              // millis() of the last interval
   uint32_t rang_ms_ = 0;         // when this ring started

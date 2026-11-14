@@ -53,12 +53,19 @@ details, **Settings**. The same values are entities of the screen in Home Assist
   [Guition speaker](https://github.com/woldhek/tessera-plugin-guition-speaker) makes its speaker output the screen's
   speaker. To change the
   sound, replace `components/alarm_clock/sounds/alarm.wav` in a copy of this plugin with a WAV file of 16-bit samples.
-- **A media player of Home Assistant.** Choose it when you add the plugin (**Media player**), and fill in **Media to
-  play**: an address such as `https://example.org/wake.mp3`, or a media-source id of Home Assistant such as
-  `media-source://media_source/local/wake.mp3`. When an alarm goes off the screen calls `media_player.play_media` on
-  that speaker, after `media_player.volume_set` when **Media volume** is above 0, and `media_player.media_stop` on
-  Stop and Snooze. The speaker plays the file once, so take one that lasts, or a radio station. This needs Home
+- **A media player of Home Assistant.** Choose it when you add the plugin (**Media player**). That is all: when an alarm
+  goes off the speaker plays the alarm's own beeps, the file `media/alarm.mp3` of this repository (ten minutes, started
+  again when an alarm rings longer). It comes from the internet (jsDelivr), so the speaker needs to reach it. To play
+  something else, fill in **Media to play**: an address such as `https://example.org/wake.mp3`, a radio stream, or a
+  media-source id of Home Assistant such as `media-source://media_source/local/wake.mp3`. The screen calls
+  `media_player.play_media` on that speaker, after `media_player.volume_set` when **Media volume** is above 0, and
+  `media_player.media_stop` on Stop and Snooze. Your own file plays once, so take one that lasts. This needs Home
   Assistant to be reachable when the alarm goes off.
+- **Nothing on the media player?** Press **Ring alarm** in Home Assistant and read the screen's log (ESPHome, Logs):
+  `Asked media_player... to play ...` means the screen sent it, and the problem is between Home Assistant and the
+  speaker (Home Assistant's own log says why). `Not sent` means the screen could not reach Home Assistant. The screen
+  must also be allowed to perform Home Assistant actions (Settings, Devices & services, ESPHome, the screen,
+  Configure), as every control of Tessera needs.
 
 ## In Home Assistant
 
